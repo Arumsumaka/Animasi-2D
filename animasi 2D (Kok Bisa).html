@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EduMotion</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700&display=swap">
+<style>
+:root{color-scheme:dark;--bg:#0f2429;--p1:#163239;--p2:#1d3f47;--ln:#2b535b;--tx:#e8f2ee;--mu:#93b2ac;--ac:#2fd0c4;--wm:#f0a43c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 Nunito,system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:32px 20px 64px}
+.brand{display:flex;gap:14px;align-items:center;margin-bottom:26px}
+.brand h1{font:600 28px/1.1 Fredoka,Nunito,sans-serif;margin:0}
+.brand p{margin:3px 0 0;color:var(--mu);font-size:14px}
+.box{background:var(--p1);border:1px solid var(--ln);border-radius:14px;padding:18px;margin-bottom:16px}
+label,.lb{display:block;font:600 16px Fredoka,Nunito,sans-serif;margin-bottom:8px}
+textarea{width:100%;min-height:110px;resize:vertical;background:var(--p2);color:var(--tx);border:1px solid var(--ln);border-radius:10px;padding:12px;font:inherit}
+textarea:focus,button:focus-visible,summary:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+button{font:700 15px Nunito,sans-serif;border-radius:10px;border:1px solid var(--ln);background:var(--p2);color:var(--tx);padding:10px 14px;cursor:pointer}
+button:hover{border-color:var(--ac)}
+.seg button[aria-pressed=true]{background:var(--ac);border-color:var(--ac);color:#06201e}
+.go{width:100%;background:var(--wm);border-color:var(--wm);color:#2a1a02;font-size:17px;padding:14px}
+.acts{display:flex;gap:8px;margin:10px 0 22px}
+.acts button{flex:1}
+.card{background:var(--p1);border:1px solid var(--ln);border-radius:14px;margin-bottom:14px;overflow:hidden}
+.card header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--p2);border-bottom:1px solid var(--ln)}
+.card header b{font:600 16px Fredoka,Nunito,sans-serif}
+.card.neg{border-top:3px solid var(--wm)}
+.card textarea{border:0;border-radius:0;background:transparent;min-height:160px;line-height:1.6}
+.empty{border:1px dashed var(--ln);border-radius:14px;padding:26px;text-align:center;color:var(--mu)}
+details{color:var(--mu);font-size:14px;margin-top:22px}
+summary{cursor:pointer;color:var(--tx)}
+details dl{margin:10px 0 0}details dt{font-weight:700;color:var(--tx);margin-top:8px}details dd{margin:0}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ac);color:#06201e;font-weight:700;padding:9px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.on{opacity:1}
+[hidden]{display:none!important}
+select,input[type=number]{background:var(--p2);color:var(--tx);border:1px solid var(--ln);border-radius:10px;padding:10px 12px;font:inherit}
+select{width:100%}.w3{grid-column:1/-1}
+#cust{display:flex;gap:8px;align-items:center;margin-top:8px}#cust input{width:84px}
+.hint{margin:8px 0 0;color:var(--mu);font-size:14px}
+.sc{margin-bottom:22px;content-visibility:auto;contain-intrinsic-size:auto 760px}
+.sc h3{font:600 19px Fredoka,Nunito,sans-serif;margin:0 0 4px}
+.sc .sum{color:var(--mu);font-size:14px;margin:0 0 10px}
+.sc .card textarea{height:190px}.sc .card.vo textarea{height:90px;min-height:90px}
+.sc .acts{margin:0}
+.pbar{height:8px;background:var(--p2);border-radius:99px;overflow:hidden;margin-top:6px}.pbar i{display:block;height:100%;background:var(--ac);width:0;transition:width .2s}
+#prog{margin:0 0 14px;color:var(--mu);font-size:14px}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){#toast{transition:none}}
+</style></head>
+<body><main>
+<div class="brand">
+ <svg width="54" height="54" viewBox="0 0 46 46" aria-hidden="true"><rect width="46" height="46" rx="12" fill="#1d3f47"/><path d="M8 46c0-10 6-14 15-14s15 4 15 14z" fill="#2fd0c4"/><circle cx="23" cy="21" r="12" fill="#f6cfaa"/><path d="M10.5 19c-1-9 6-13 13-12 8 0 13 5 12 12-3-5-8-7-13-6-5 0-9 2-12 6z" fill="#1c1c1c"/><circle cx="18.5" cy="23" r="1.6" fill="#1c1c1c"/><circle cx="28" cy="23" r="1.6" fill="#1c1c1c"/></svg>
+ <div><h1>EduMotion</h1><p>Tulis idenya. Scene, prompt gambar, prompt video, dan voice-over siap salin.</p></div>
+</div>
+<div class="box"><label for="idea">Apa yang ingin dibuat?</label>
+<textarea id="idea" placeholder="Contoh: Seorang karakter memegang perutnya karena lapar, lalu muncul visualisasi organ pencernaan."></textarea></div>
+<div class="box row">
+ <div><span class="lb" id="l2">Jenis hasil</span><div class="seg" id="g2" role="group" aria-labelledby="l2"><button data-v="0">Gambar</button><button data-v="1">Video</button><button data-v="2" aria-pressed="true">Gambar + Video</button></div></div>
+ <div><span class="lb" id="l3">Rasio</span><div class="seg" id="g3" role="group" aria-labelledby="l3"><button data-v="16:9" aria-pressed="true">16:9 YouTube</button><button data-v="9:16">9:16 Shorts</button><button data-v="1:1">1:1 Square</button></div></div>
+ <div class="w3"><label for="dur">Durasi video</label><select id="dur"><option value="30">30 detik</option><option value="60" selected>1 menit</option><option value="120">2 menit</option><option value="180">3 menit</option><option value="300">5 menit</option><option value="480">8 menit</option><option value="600">10 menit</option><option value="720">12 menit</option><option value="900">15 menit</option><option value="c">Durasi custom</option></select>
+ <div id="cust" hidden><input type="number" id="dm" min="0" max="15" value="1" aria-label="Menit"> menit <input type="number" id="ds" min="0" max="59" value="25" aria-label="Detik"> detik</div>
+ <p class="hint" id="nsc"></p></div>
+</div>
+<button class="go" id="go">Generate Prompt</button>
+<div class="acts"><button id="re">Regenerate</button><button id="rs">Reset</button></div>
+<div id="prog"></div>
+<div class="acts" id="allacts" hidden><button id="cap">Copy All Prompts</button><button id="cav">Copy All Voice-over</button></div>
+<div id="out"><div class="empty">Hasil prompt akan muncul di sini.</div></div>
+<details><summary>Profil gaya referensi (REFERENCE_STYLE_LOCK)</summary>
+<p>Dirangkum dari frame video “Kenapa Perut Kita Bunyi Kalau Lagi Lapar”. Dipakai otomatis di setiap prompt.</p><dl id="lockdl"></dl></details>
+</main>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+const $=i=>document.getElementById(i);
+const REFERENCE_STYLE_LOCK={
+ "Karakter":"kepala besar membulat (sekitar sepertiga tinggi badan), kulit peach polos, mata berupa satu titik hitam kecil (satu titik saat tampak samping, dua titik saat tampak depan), hidung nyaris tidak ada, mulut hanya garis atau bentuk kecil, rambut hitam tebal berjambul sebagai satu bentuk solid, mata digambar garis tertutup saat lelah atau santai, badan sederhana dengan anggota tubuh pendek berbentuk tabung dan tangan seperti sarung tangan, pakaian warna solid tanpa motif (kaus turquoise dan celana abu-abu gelap untuk tokoh utama)",
+ "Gaya render":"vektor datar tanpa outline, isi warna solid, gradasi halus hanya pada latar dan organ, bayangan berupa elips datar lebih gelap di bawah objek",
+ "Palet":"turquoise, peach, cokelat sofa, teal kehijauan, biru muda, hijau zaitun, krem, oranye mustard, merah koral dan merah muda untuk organ",
+ "Latar dan properti":"interior sehari-hari yang sederhana (sofa cokelat bertombol bulat, lemari kayu, jendela, sedikit properti), gedung datar, tampak atas peta kota; organ dalam penampang tubuh dengan latar gradasi teal ke amber",
+ "Cahaya dan komposisi":"cahaya siang lembut dan merata, tanpa bayangan dramatis; subjek di tengah atau sepertiga bingkai, properti sedikit, latar bersih, kepala besar sering terpotong pada close-up",
+ "Gerakan":"gerakan 2D datar yang halus, pelan, dengan easing sederhana; garis lengkung biru muda kecil menandakan angin, bunyi, atau sensasi; objek muncul dengan skala lembut",
+ "Kamera dan transisi":"dominan statis atau push-in perlahan; zoom ke tubuh sebagai transisi ke visualisasi, gelembung lingkaran putih sebagai pembesaran detail mikroskopis",
+ "Visualisasi ilmiah":"penampang tubuh, organ dalam tabung kaca, label huruf kapital sans-serif putih dengan garis penunjuk tipis berujung lingkaran kecil"
+};
+const L={
+ char:"a flat 2D cartoon character with an oversized rounded head about one third of body height, smooth peach skin, eyes drawn as a single small solid black dot each (one dot in side profile, two in front view), almost no nose, the mouth only a simple line or small shape, thick black swept hair as one solid shape, a simple torso with short tube-like limbs and mitten-like hands, solid-color clothing without patterns (a turquoise t-shirt and dark grey pants for the main character)",
+ render:"pure flat vector fills with no outlines, soft gradients only on backgrounds and organs, and flat darker ellipses as contact shadows under objects",
+ pal:"turquoise, peach, sofa brown, muted teal-green, light blue, olive green, cream and mustard orange, with coral red and pink for organs",
+ light:"soft, even daylight with no dramatic shadows",
+ motion:"smooth, gentle and slow flat 2D motion with simple easing, small light-blue wavy swirl lines to suggest air, sound or sensation, and objects scaling in softly",
+};
+const SET=[
+[/ruang keluarga|sofa|nonton|santai|game/,"a simple living room with a brown sofa with round buttons, a muted teal wall, a small wooden cabinet and a window with light-blue daylight"],
+[/dapur|masak|kulkas|makan|nasi|piring/,"a simple kitchen with a table, cabinets and a few flat cups and plates on a cream floor"],
+[/jalan|kota|macet|motor|mobil|lalu lintas|gedung/,"a flat city street with simple buildings, lamp posts, an olive-green lawn and a cream pavement"],
+[/lab|eksperimen|ilmuwan|tabung/,"a simple laboratory with a bench, flasks and a muted teal wall"],
+[/kantor|meja kerja|laptop|komputer|studio|mengetik/,"a simple desk area with a warm brown wall, a desk, a monitor and a chair"],
+[/sekolah|kelas|guru|murid/,"a simple classroom with a green board, desks and a light-blue wall"],
+[/kamar|tidur|kasur/,"a simple bedroom with a bed, a small window and soft cream and teal walls"],
+[/langit|angkasa|bumi|planet/,"a flat light-blue sky with a few simple clouds"]];
+const PROP=[[/ponsel|hp\b|smartphone/,"a phone"],[/laptop|komputer/,"a laptop"],[/gelas|minum|air\b/,"a glass of water"],[/nasi|makanan|makan/,"a plate of food"],[/buku|membaca/,"a book"],[/jam\b|waktu/,"a wall clock"],[/motor/,"a yellow scooter"],[/game|konsol/,"a handheld game console"]];
+const ACT=[[/memegang perut|perutnya|perut/,"holding their stomach with both hands"],[/makan/,"eating"],[/minum/,"drinking"],[/tidur/,"sleeping"],[/berlari|lari/,"running"],[/berjalan|jalan kaki/,"walking"],[/duduk/,"sitting"],[/membaca/,"reading"],[/bermain|game/,"playing a handheld game"],[/menunjuk/,"pointing at an object"],[/berbicara|menjelaskan|bercerita/,"talking with simple hand gestures"],[/mengendarai|naik motor/,"riding a scooter"],[/memasak/,"cooking"],[/bekerja|mengetik/,"typing at a desk"]];
+const EMO=[[/terkejut|kaget|kejut/,"wide dot eyes and a small open mouth, surprised"],[/lapar|lemas|lelah|capek|ngantuk|sedih/,"lowered, half-closed eyes drawn as short lines, tired and slightly sad"],[/senang|tertawa|bahagia|semangat/,"closed happy arc eyes and a small smile"],[/bingung|heran|penasaran/,"dot eyes looking sideways with a small wavy mouth, puzzled"],[/marah|kesal/,"dot eyes with a flat angled brow line, annoyed"]];
+const ORG=/organ|lambung|usus|jantung|paru|otak|ginjal|pencernaan|di dalam|tubuh|darah|visualisasi organ/;
+const MIC=/bakteri|virus|\bsel\b|molekul|asam|enzim|mikro|kuman|zat/;
+const SCI=/organ|lambung|usus|jantung|paru|otak|ginjal|pencernaan|bakteri|virus|\bsel\b|molekul|asam|enzim|diagram|grafik|atom|planet|bumi|gelombang|peta|mikro/;
+const CHW=/karakter|orang|anak|\bdia\b|pria|laki|wanita|perempuan|seorang|ibu|ayah|dokter|ilmuwan|remaja|bocah|cowok|cewek|teman|saya|kita/;
+const first=(R,s)=>{const m=R.find(r=>r[0].test(s));return m?m[1]:''};
+const all=(R,s)=>R.filter(r=>r[0].test(s)).map(r=>r[1]);
+function organEn(s){const o=[];if(/lambung|perut|pencernaan/.test(s))o.push('the stomach and intestines');if(/jantung/.test(s))o.push('the heart');if(/paru/.test(s))o.push('the lungs');if(/otak/.test(s))o.push('the brain');if(/ginjal/.test(s))o.push('the kidneys');return o.length?'emphasizing '+o.join(' and ')+' with a soft highlight':'emphasizing the relevant organs with a soft highlight'}
+function micEn(s){const m=[];if(/bakteri|kuman/.test(s))m.push('green rod-shaped bacteria with a dotted texture');if(/virus/.test(s))m.push('round spiky viruses');if(/asam/.test(s))m.push('pale yellow-green acidic fluid with small bubbles');if(/enzim|molekul/.test(s))m.push('small colored molecule blobs');if(/\bsel\b/.test(s))m.push('a simple round cell with a nucleus');return m.length?m.join(' and '):'tiny simple shapes of the subject'}
+function beatEn(seg){
+ const s=seg.toLowerCase(),b=[];
+ if(ORG.test(s)&&/organ|lambung|usus|jantung|paru|otak|ginjal|pencernaan|visualisasi|di dalam|tubuh/.test(s)&&!/^(?:.*)memegang perut$/.test(s)&&/organ|lambung|usus|jantung|paru|otak|ginjal|pencernaan|visualisasi|di dalam/.test(s))b.push('a simplified cartoon cross-section of the human body in soft coral red and pink against a warm teal-to-amber gradient, '+organEn(s)+', with white sans-serif capital labels and thin leader lines ending in small circles');
+ if(MIC.test(s))b.push('a circular white magnifier bubble connected by a small pointer showing '+micEn(s));
+ if(/diagram|grafik|panah/.test(s))b.push('a clean flat diagram built from simple shapes and arrows with short white sans-serif labels');
+ if(b.length)return{sci:true,t:b.join('; ')};
+ const a=first(ACT,s),e=first(EMO,s);
+ return{sci:false,t:(a?'the character is '+a:'the character stands in a clear relaxed pose')+(e?', with '+e:'')};
+}
+function analyze(text){
+ const s=text.toLowerCase();
+ const hasChar=CHW.test(s)||!SCI.test(s);
+ let setting=first(SET,s);
+ const beats=text.split(/[,;]|\blalu muncul\b|\blalu\b|\bkemudian\b|\bsetelah itu\b/i).map(x=>x.trim()).filter(x=>x.length>3).slice(0,3).map(x=>({src:x,...beatEn(x)}));
+ const sciOnly=!hasChar,hasSci=beats.some(b=>b.sci);
+ if(!setting)setting=sciOnly?'a clean flat teal-to-amber gradient backdrop':'a clean flat muted teal-green backdrop with a simple cream floor line';
+ const props=all(PROP,s);
+ const n=beats.length||1;
+ const dur=n>=3?10:(n===2||hasSci?8:5);
+ return{s,hasChar,setting,props,beats,hasSci,sciOnly,dur,emo:first(EMO,s)};
+}
+let V=0,mode=2,ratio='16:9',last=null;
+function build(text,DUR){
+ const A=analyze(text),pick=a=>a[V%a.length];
+ const bg=A.beats.find(b=>b.sci);
+ const staticPart=A.beats.find(b=>!b.sci);
+ const settingTxt=A.sciOnly&&bg?bg.t:A.setting+(A.props.length?', with '+A.props.join(', ')+' as the only props':'');
+ const charTxt=A.hasChar?'Character: '+L.char+'. '+(staticPart?'Pose and expression: '+staticPart.t+'.':'')+' ':'No character appears; the focus is on the objects and the visualization. ';
+ const comp={'16:9':pick(['a wide horizontal frame with the subject centered or on the left third and clean empty space on the right for the visualization','a wide horizontal frame with the subject centered and generous clean space around it']),'9:16':'a tall vertical frame with the subject centered in the middle and the visualization or key object stacked above or below it, leaving safe margins at the top and bottom','1:1':'a balanced square frame with the subject centered and the key detail close to it'}[ratio];
+ const sciFrame=A.sciOnly&&bg?'':(bg?'Include '+bg.t+(A.hasChar?', shown beside or inside the character’s silhouette':'')+'. ':'');
+ const brief='Original scene brief (Indonesian): “'+text.trim().replace(/[.!?]+$/,'')+'”.';
+ const ref='Visual reference: '+L.render+'; palette of '+L.pal+'; '+L.light+'.';
+ const img='Create one frame of a flat 2D educational explainer animation. '+charTxt+'Setting: '+settingTxt+'. '+sciFrame+'Composition: '+comp+', a clean uncluttered layout with very few props and a single clear focal point. '+ref+' Aspect ratio '+ratio+'. Keep the character design, hair, clothing, proportions and colors exactly as described here, and keep the same flat no-outline style. '+brief;
+ const neg='outlines, thick black lines, photorealistic, 3D render, realistic anatomy, gore, blood, cluttered background, excessive detail, hard shadows, harsh gradients, anime style, different hair, different clothing, changed skin tone, extra fingers, distorted face, garbled text, watermark, logo, blurry, low resolution';
+ const negV=neg+', jittery or flickering motion, sudden cuts, morphing shapes, body distortion, background changing by accident, camera shake, fast chaotic movement, multiple unrelated actions';
+ const d=DUR||A.dur;let seq='';
+ let bt=A.beats.length?A.beats:[{t:'a clear single action',sci:false}];if(d<4)bt=bt.slice(0,1);
+ if(bt.length===1)seq='The single main action: '+bt[0].t+', performed slowly and clearly.';
+ else{const k=bt.length,step=Math.round(d/k);seq='Sequence: '+bt.map((b,i)=>`(${i*step}–${i===k-1?d:(i+1)*step}s) ${b.t}`).join(', then ')+'. No other events.'}
+ const cam=A.hasSci&&A.hasChar?pick(['The camera starts on a static medium shot, then pushes in slowly toward the character’s body and the view dissolves smoothly into the cutaway visualization.','The camera holds still on the character, then zooms in slowly through the body into the cutaway visualization.']):A.sciOnly?'A slow, smooth push-in toward the focal point of the visualization.':pick(['A static camera with a very slow, subtle push-in.','A static camera with no movement.']);
+ const vid='Create '+(d===8?'an ':'a ')+d+'-second animated clip in a flat 2D educational explainer style. Opening frame: '+(A.hasChar?'the character in ':'')+settingTxt+'. '+charTxt+seq+' Movement: '+L.motion+'. Camera: '+cam+' The clip ends on a still, readable frame that holds for a moment. Composition for '+ratio+': '+comp+'. '+ref+' Keep the character design, clothing, palette and environment identical throughout the clip, with no changes unless described. Smooth, easy-to-follow motion with natural easing. '+brief;
+ return{img,vid,neg,negV};
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2200)}
+const pad=n=>String(n).padStart(2,'0'),mm=s=>pad(Math.floor(s/60))+':'+pad(s%60),val=id=>($(id)||{}).value||'';
+let tok=0,scenes=[],ac=null,OL=null,busy=false;
+function secs(){const v=$('dur').value;if(v==='c')return Math.min(900,Math.max(1,(+$('dm').value||0)*60+(+$('ds').value||0)));return +v}
+function updN(){const T=secs();$('cust').hidden=$('dur').value!=='c';$('nsc').textContent='Total '+mm(T)+' = '+Math.ceil(T/10)+' scene (10 detik per scene'+(T%10?', scene terakhir '+(T%10)+' detik':'')+')'}
+['dur','dm','ds'].forEach(x=>$(x).addEventListener('input',updN));updN();
+const wr=d=>[Math.round(d*1.5),Math.round(d*2.2)];
+const ROLE=(i,N)=>i===0?'hook':i===N-1&&N>2?'end':i>=N-Math.max(2,Math.round(N*.08))&&N>4?'sum':i<Math.max(2,N*.12)?'intro':'mid';
+const MID=["Pertama, perhatikan apa yang terjadi di awal. Dari sinilah rangkaian kejadian ini dimulai.","Lalu, bagian yang terlibat mulai merespons dengan cara yang cukup teliti dan terarah.","Setiap bagian punya tugas sendiri, dan semuanya bekerja berurutan seperti estafet yang rapi.","Ada satu detail penting yang sering terlewat, padahal sangat menentukan hasil akhirnya.","Kalau kita perbesar, terlihat prosesnya berlangsung lewat langkah-langkah kecil yang saling menyambung.","Akibatnya, muncul tanda-tanda yang bisa kita rasakan atau lihat dalam keseharian.","Ini menjelaskan kenapa kejadian serupa muncul lagi saat kondisinya mirip seperti tadi.","Bandingkan dengan keadaan sebelumnya, dan kamu akan melihat perbedaannya cukup jelas.","Jadi, sebab dan akibatnya saling terhubung, bukan kejadian yang muncul tiba-tiba.","Contoh sederhananya ada di sekitar kita, dan bisa diamati tanpa alat khusus.","Tentu saja, setiap orang bisa mengalaminya sedikit berbeda, tergantung kondisi masing-masing.","Setelah paham alurnya, kita tinggal merangkum semuanya supaya mudah diingat."];
+function topicOf(x){const s=x.trim().replace(/[.!?]+$/,''),q=s.match(/(kenapa|mengapa|bagaimana)[^,.?]*/i);return q?q[0]:s.split(/[,;]| lalu /)[0].slice(0,70)}
+function loc(i,N,v=0){
+ const t=topicOf(last),r=ROLE(i,N),l=last.toLowerCase();
+ if(r==='hook')return{vis:last,vo:`Pernah penasaran soal ini? Hari ini kita bahas ${t}, dan jawabannya ternyata lebih seru dari yang kamu kira.`};
+ if(r==='intro')return{vis:`Karakter berbicara menjelaskan ${t}`,vo:`Sebelum masuk ke jawabannya, kita kenali dulu hal-hal dasar yang berhubungan dengan ${t}.`};
+ if(r==='sum')return{vis:'Karakter berbicara merangkum, lalu muncul diagram ringkasan',vo:`Singkatnya, ${t} terjadi karena rangkaian proses yang saling berkaitan, dari pemicu sampai akibatnya.`};
+ if(r==='end')return{vis:'Karakter senang berbicara kepada penonton',vo:'Itulah penjelasannya. Sekarang kamu sudah tahu jawabannya, dan bisa menceritakannya ke teman. Sampai jumpa di video berikutnya!'};
+ const x=(i+v)%3;
+ return{vis:x===0?'Karakter berbicara menjelaskan sambil menunjuk':x===1?(ORG.test(l)?'Penampang tubuh dengan organ yang dibahas dan label penjelas':'Diagram sederhana sebab-akibat dengan panah dan label'):(MIC.test(l)?'Karakter melihat objek, lalu muncul visualisasi bakteri dalam gelembung pembesaran':'Karakter menunjuk ke samping, lalu muncul diagram penjelasan'),vo:MID[(i-1+v)%MID.length]};
+}
+async function getSample(){try{if(window.claude&&claude.use)return await claude.use('sample')}catch(e){}return null}
+const outP=(idea,N)=>`Ide video edukasi animasi 2D berbahasa Indonesia: «${idea}». Buat alur ${N} scene (tiap scene 10 detik): scene 1 hook yang menarik perhatian, lalu pembukaan, penjelasan bertahap sebab-akibat, contoh, dan scene terakhir berupa kesimpulan. Setiap scene membahas informasi yang berbeda. Balas HANYA JSON array berisi tepat ${N} string; tiap string satu kalimat pendek tentang poin scene itu.`;
+function batchP(st,en){
+ const N=scenes.length,prev=scenes.slice(Math.max(0,st-3),st).map(s=>s.vo).filter(Boolean).join(' | '),nx=scenes[en]&&scenes[en].vo?scenes[en].vo:'';
+ const list=scenes.slice(st,en).map((s,k)=>{const d=s.b-s.a,[a,b]=wr(d);return `Scene ${st+k+1} dari ${N} (${mm(s.a)}–${mm(s.b)}, ${d} detik, narasi ${a}–${b} kata): ${(OL&&OL[st+k])||(st+k===0?'hook yang menarik perhatian':st+k===N-1?'kesimpulan':'penjelasan lanjutan')}`}).join('\n');
+ return `Kamu penulis naskah video edukasi animasi 2D berbahasa Indonesia (gaya "Kok Bisa"). Ide video: «${last}».\nNarasi scene sebelumnya (jangan diulang): ${prev||'belum ada; scene 1 wajib berupa hook yang menarik perhatian'}\n${nx?'Narasi scene sesudahnya (jangan diulang): '+nx+'\n':''}Tulis scene berikut:\n${list}\nBalas HANYA JSON array berisi ${en-st} objek berurutan {"visual":"...","vo":"..."}. visual: satu kalimat Indonesia pendek dengan satu aksi utama; sebut karakter (kaus turquoise), latar yang konsisten antar scene, dan bila perlu "lalu muncul visualisasi organ", "diagram", atau "bakteri". vo: narasi Indonesia yang alami diucapkan, sesuai visual dan poin scene, dalam rentang kata yang diminta, runtut dari pembuka sampai kesimpulan, tanpa mengulang informasi scene lain.`;
+}
+const box=(i,k,t,lb,c)=>`<div class="card ${c||''}"><header><b>${t}</b><button data-c="${k}${i}">${lb}</button></header><textarea id="t_${k}${i}" aria-label="${t} scene ${i+1}"></textarea></div>`;
+const mk=i=>{const s=scenes[i];return `<section class="sc" id="s${i}"><h3>Scene ${pad(i+1)} · ${mm(s.a)}–${mm(s.b)}</h3><p class="sum" id="sm${i}">Menyusun…</p>`+(mode!==1?box(i,'i','Image Prompt Lengkap','Copy Image Prompt Lengkap'):'')+(mode!==0?box(i,'v','Video Prompt Lengkap','Copy Video Prompt Lengkap'):'')+box(i,'o','Voice-over','Copy Voice-over','vo')+`<div class="acts"><button data-r="${i}">Regenerate scene</button></div></section>`};
+function fill(i){
+ const s=scenes[i];if(!s.vis)return;const r=build(s.vis,s.b-s.a),set=(k,v)=>{const e=$('t_'+k+i);if(e)e.value=v};
+ $('sm'+i).textContent='Visual: '+s.vis;
+ set('i',r.img+'\n\nNEGATIVE PROMPT: '+r.neg+'.');set('v',r.vid+'\n\nVIDEO NEGATIVE PROMPT: '+r.negV+'.');set('o',s.vo);
+}
+function shell(){$('out').innerHTML=scenes.map((_,i)=>mk(i)).join('');$('allacts').hidden=!scenes.length;scenes.forEach((_,i)=>fill(i))}
+function prog(f,m){$('prog').innerHTML=m+(f<1?'<div class="pbar"><i style="width:'+Math.round(f*100)+'%"></i></div>':'')}
+async function plan(my){
+ const N=scenes.length;busy=true;
+ let sample=await getSample(),local=!sample;OL=null;
+ prog(0,local?'Mode lokal: Claude tidak tersedia, narasi berupa kerangka umum.':'Menyusun alur cerita…');
+ if(sample){try{OL=await sample.json(outP(last,N),{signal:ac.signal,cache:false});if(!Array.isArray(OL))throw 0}catch(e){if(my!==tok)return;OL=null;if(e&&e.code==='not_granted'){sample=null;local=true}}}
+ for(let st=0;st<N;st+=10){
+  if(my!==tok)return;
+  const en=Math.min(N,st+10);let items=null;
+  if(sample){try{items=await sample.json(batchP(st,en),{signal:ac.signal,cache:false})}catch(e){if(my!==tok)return;if(e&&e.code==='not_granted'){sample=null;local=true}}}
+  for(let i=st;i<en;i++){const it=items&&items[i-st];if(it&&it.visual&&it.vo){scenes[i].vis=String(it.visual);scenes[i].vo=String(it.vo)}else{const l=loc(i,N);scenes[i].vis=l.vis;scenes[i].vo=l.vo;local=true}fill(i)}
+  prog(en/N,'Menyusun scene '+en+' dari '+N);
+ }
+ busy=false;prog(1,'Selesai: '+N+' scene, total '+mm(scenes[N-1].b)+'.'+(local?' Sebagian narasi memakai kerangka umum karena Claude tidak tersedia atau gagal.':''));
+}
+function start(){const t=$('idea').value.trim();if(!t){toast('Tulis ide adegan dulu');$('idea').focus();return}
+ last=t;tok++;if(ac)ac.abort();ac=new AbortController();
+ const T=secs(),N=Math.ceil(T/10);scenes=Array.from({length:N},(_,i)=>({a:i*10,b:Math.min(T,(i+1)*10)}));
+ shell();plan(tok)}
+async function regen(i){
+ const b=document.querySelector('[data-r="'+i+'"]');b.disabled=true;V++;let ok=false;const s=await getSample();
+ if(s){try{const a=await s.json(batchP(i,i+1),{cache:false});if(a&&a[0]&&a[0].visual&&a[0].vo){scenes[i].vis=String(a[0].visual);scenes[i].vo=String(a[0].vo);ok=true}}catch(e){}}
+ if(!ok){const l=loc(i,scenes.length,V);scenes[i].vis=l.vis;scenes[i].vo=l.vo}
+ fill(i);b.disabled=false;toast('Scene '+(i+1)+' dibuat ulang')}
+async function copyText(x){try{await navigator.clipboard.writeText(x);toast('Disalin')}catch(e){const a=document.createElement('textarea');a.value=x;document.body.appendChild(a);a.select();let ok=false;try{ok=document.execCommand('copy')}catch(z){}a.remove();toast(ok?'Disalin':'Gagal menyalin, salin manual')}}
+function seg(id,cb){$(id).addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$(id).querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));cb(b.dataset.v);if(scenes.length)shell()})}
+seg('g2',v=>mode=+v);seg('g3',v=>ratio=v);
+$('go').onclick=()=>{V=0;start()};
+$('re').onclick=()=>{if(!last){toast('Tekan Generate Prompt dulu');return}V++;start()};
+$('rs').onclick=()=>{tok++;if(ac)ac.abort();busy=false;$('idea').value='';V=0;last=null;mode=2;ratio='16:9';scenes=[];OL=null;$('dur').value='60';$('dm').value=1;$('ds').value=25;updN();
+ $('g2').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.v==='2'));$('g3').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.v==='16:9'));
+ $('prog').innerHTML='';$('allacts').hidden=true;$('out').innerHTML='<div class="empty">Hasil prompt akan muncul di sini.</div>'};
+$('out').addEventListener('click',e=>{const c=e.target.closest('[data-c]'),r=e.target.closest('[data-r]');if(c)copyText(val('t_'+c.dataset.c));else if(r)regen(+r.dataset.r)});
+$('cap').onclick=()=>{if(busy){toast('Tunggu sampai semua scene selesai');return}copyText(scenes.map((s,i)=>'SCENE '+pad(i+1)+' ('+mm(s.a)+'–'+mm(s.b)+')\n\n'+(mode!==1?'IMAGE PROMPT LENGKAP\n'+val('t_i'+i)+'\n\n':'')+(mode!==0?'VIDEO PROMPT LENGKAP\n'+val('t_v'+i):'')).join('\n\n----------\n\n'))};
+$('cav').onclick=()=>{if(busy){toast('Tunggu sampai semua scene selesai');return}copyText(scenes.map((s,i)=>val('t_o'+i)).join('\n\n'))};
+$('lockdl').innerHTML=Object.entries(REFERENCE_STYLE_LOCK).map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('');
+</script></body></html>
